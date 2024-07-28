@@ -6,10 +6,10 @@
 
     <!-- Modal -->
     <div v-if="showModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+      <div :class="['modal-content', modalBackgroundClass]">
         <p class="text-lg font-bold mb-4">{{ modalTitle }}</p>
         <p class="mb-4">{{ responseMessage }}</p>
-        <button @click="dismissModal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Okay</button>
+        <button @click="dismissModal" class="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200">Okay</button>
       </div>
     </div>
   </div>
@@ -28,6 +28,7 @@ export default {
       showModal: false,
       modalTitle: 'Ticket Verification',
       responseMessage: '',
+      modalBackgroundClass: '',
       scannerKey: 0, // Add key for QrcodeStream
     };
   },
@@ -54,13 +55,15 @@ export default {
         // Check HTTP status code
         if (response.status === 200) {
           this.responseMessage = response.data.message; // Assuming API returns message field
+          this.modalBackgroundClass = 'bg-green-500 text-white';
         } else {
-          // Handle other HTTP status codes (e.g., 404, 500, etc.)
           this.responseMessage = response.data.message;
+          this.modalBackgroundClass = 'bg-red-500 text-white';
         }
       } catch (error) {
         console.error('Error verifying ticket:', error);
         this.responseMessage = error.response.data.message || 'An error occurred while verifying ticket'; // Example error message
+        this.modalBackgroundClass = 'bg-red-500 text-white';
       } finally {
         this.showModal = true; // Ensure showModal is set to true in all cases
       }
@@ -117,6 +120,18 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 100%;
+}
 .bg-white {
   display: flex;
   flex-direction: column;
@@ -124,5 +139,13 @@ export default {
   justify-content: center;
   padding-left: 16px;
   padding-right: 16px;
+}
+.bg-green-500 {
+  background-color: green;
+  color: white;
+}
+.bg-red-500 {
+  background-color: red;
+  color: white;
 }
 </style>
