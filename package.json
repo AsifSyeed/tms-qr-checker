@@ -8,7 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@babel/runtime": "^7.24.8",
+    "@babel/runtime": "^7.25.0",
     "axios": "^1.7.2",
     "vue": "^3.0.11",
     "vue-router": "^4.0.6",
