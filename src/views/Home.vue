@@ -50,7 +50,7 @@ export default {
     },
     async verifyTicket() {
       try {
-        const url = 'https://api.countersbd.com/api/v1/ticket/verify';
+        const url = 'http://localhost:8080/api/v1/ticket/verify';
         const response = await axios.post(url, { ticketId: this.decodedString });
 
         // Check HTTP status code

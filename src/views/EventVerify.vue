@@ -37,7 +37,7 @@ export default {
         async handleSubmit() {
             try {
                 // Update the API endpoint here
-                const response = await axios.get(`https://api.countersbd.com/api/v1/event/verify-for-scanner`, {
+                const response = await axios.get(`http://localhost:8080/api/v1/event/verify-for-scanner`, {
                     params: { eventId: this.eventId || null }  // Pass eventId or null if empty
                 });
 

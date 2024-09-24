@@ -12,8 +12,12 @@
             >
                 Verify Event Ticket
             </button>
-            <button class="px-6 py-2 text-white rounded-lg mb-4 hover:bg-red-700" style="background-color: #D82128;">
-                Online Ticket Verify for Physical Copy
+            <button 
+                @click="tagPhysicalTicket" 
+                class="px-6 py-2 text-white rounded-lg mb-4 hover:bg-red-700" 
+                style="background-color: #D82128;"
+            >
+                Tag Physical Ticket
             </button>
             <button class="px-6 py-2 text-white rounded-lg hover:bg-red-700" style="background-color: #D82128;">
                 Sell Physical Ticket
@@ -33,9 +37,7 @@ export default {
         // Method to handle ticket verification
         const verifyTicket = async () => {
             // Perform your ticket verification logic here
-            // After verification, redirect to Home
             try {
-                // Call your verification logic here
                 console.log("Verifying ticket...");
                 // Redirect to the Home view after verification
                 router.push('/home'); // Redirect to the Home view
@@ -44,8 +46,20 @@ export default {
             }
         };
 
+        // Method to handle tagging physical tickets
+        const tagPhysicalTicket = async () => {
+            try {
+                console.log("Tagging physical ticket...");
+                router.push('/scan-online-ticket');
+            } catch (error) {
+                console.error("Error tagging physical ticket:", error);
+            }
+        };
+
+        // Return both methods to the template
         return {
-            verifyTicket
+            verifyTicket,
+            tagPhysicalTicket
         };
     }
 };
