@@ -63,7 +63,7 @@ export default {
                     onlineTicketId: onlineTicketId,
                     physicalTicketId: this.decodedString
                 };
-                const url = 'http://localhost:8080/api/v1/ticket/tag-physical-ticket';
+                const url = 'https://api.countersbd.com/api/v1/ticket/tag-physical-ticket';
                 const response = await axios.post(url, data);
 
                 // Check HTTP status code
