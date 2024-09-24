@@ -1,15 +1,29 @@
 <template>
     <div class="flex flex-col items-center bg-gray-100 px-4 min-h-screen pt-[100px]">
         <!-- Logo Image -->
-        <img src="/Logo_big.png" alt="Logo" class="w-full h-auto mb-6 max-w-xs mt-4" />
 
-        <!-- Input Field -->
+        <!-- First Input Field (Event ID) -->
         <input 
             type="text" 
-            v-model="eventId"
-            placeholder="Enter Event ID"
+            v-model="userName"
+            placeholder="Enter User Name"
+            class="px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full max-w-md"
+        />
+
+        <!-- First Input Field (Event ID) -->
+        <input 
+            type="text" 
+            v-model="userPhoneNumber"
+            placeholder="Enter User Phone Number"
+            class="px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full max-w-md"
+        />
+
+        <!-- Second Input Field (Second Field) -->
+        <input 
+            type="text" 
+            v-model="userEmailId"
+            placeholder="Enter User Email ID"
             class="px-4 py-2 mb-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full max-w-md"
-            style="margin-top: 200px;" 
         />
 
         <!-- Submit Button -->
@@ -27,28 +41,42 @@
 import axios from 'axios';  // Importing axios
 
 export default {
-    name: "EventVerify",
+    name: "EventVerifyWithTwoFields",
     data() {
         return {
-            eventId: ''  // Data property to hold the input value
+            userPhoneNumber: '',       // First input field (Event ID)
+            userEmailId: '',    // Second input field (Additional info)
+            userName: ''    // Second input field (Additional info)
         };
     },
     methods: {
         async handleSubmit() {
             try {
-                // Update the API endpoint here
-                const response = await axios.get(`https://api.countersbd.com/api/v1/event/verify-for-scanner`, {
-                    params: { eventId: this.eventId || null }  // Pass eventId or null if empty
-                });
+                // Prepare the data to be sent to the API
+                const data = {
+                    userPhoneNumber: this.userEmailId || null,      // Pass eventId or null if empty
+                    userEmailId: this.userEmailId || null, // Pass secondField or null if empty
+                    userName: this.userName || null // Pass secondField or null if empty
+                };
 
-                if (response.status === 200) {
-                    // cache the event ID in local storage to retrieve it later
-                    localStorage.setItem('eventId', this.eventId);
-                    // Redirect to ScanOptions.vue on successful response
-                    this.$router.push('/options'); // Updated to use path
-                } else {
-                    console.error("Unexpected response:", response);  // Handle unexpected response
-                }
+                console.log(data);
+                // send data to 'scan-physical-ticket' page
+                this.$router.push({ name: 'ScanPhysicalTicket', params: { data: data } });
+
+                // // Call the API (update the endpoint as needed)
+                // const response = await axios.get(`http://localhost:8080/api/v1/event/verify-with-extra`, {
+                //     params: data
+                // });
+
+                // if (response.status === 200) {
+                //     // Cache the input data in local storage to retrieve later if necessary
+                //     localStorage.setItem('eventId', this.eventId);
+                //     localStorage.setItem('secondField', this.secondField);
+                //     // Redirect to ScanOptions.vue on successful response
+                //     this.$router.push('/options');
+                // } else {
+                //     console.error("Unexpected response:", response);  // Handle unexpected response
+                // }
             } catch (error) {
                 console.error("Error fetching data:", error);  // Handle errors
             }

@@ -19,8 +19,12 @@
             >
                 Tag Physical Ticket
             </button>
-            <button class="px-6 py-2 text-white rounded-lg hover:bg-red-700" style="background-color: #D82128;">
-                Sell Physical Ticket
+            <button 
+                @click="buyPhysicalTicket" 
+                class="px-6 py-2 text-white rounded-lg mb-4 hover:bg-red-700" 
+                style="background-color: #D82128;"
+            >
+            Sell Physical Ticket
             </button>
         </div>
     </div>
@@ -56,10 +60,20 @@ export default {
             }
         };
 
+        const buyPhysicalTicket = async () => {
+            try {
+                console.log("Buy physical ticket...");
+                router.push('/physical-ticket-input');
+            } catch (error) {
+                console.error("Error buying physical ticket:", error);
+            }
+        };
+
         // Return both methods to the template
         return {
             verifyTicket,
-            tagPhysicalTicket
+            tagPhysicalTicket,
+            buyPhysicalTicket
         };
     }
 };

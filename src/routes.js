@@ -3,6 +3,8 @@ import EventVerify from './views/EventVerify.vue'
 import ScanOptions from './views/ScanOptions.vue'
 import OnlineTicketVerify from './views/OnlineTicketVerify.vue'
 import PhysicalTicketTag from './views/PhysicalTicketTag.vue'
+import PhysicalTicketSell from './views/PhysicalTicketSell.vue'
+import PhysicalTicketScan from './views/PhysicalTicketScan.vue'
 
 /** @type {import('vue-router').RouterOptions['routes']} */
 export const routes = [
@@ -11,4 +13,6 @@ export const routes = [
   { path: '/options', component: ScanOptions, meta: { title: '' } },
   { path: '/scan-online-ticket', component: OnlineTicketVerify, meta: { title: '' } },
   { path: '/tag-physical-ticket', component: PhysicalTicketTag, meta: { title: '' } },
+  { path: '/physical-ticket-input', component: PhysicalTicketSell, meta: { title: '' } },
+  { path: '/scan-physical-ticket', component: PhysicalTicketScan, meta: { title: '' } },
 ]
