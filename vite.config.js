@@ -9,5 +9,11 @@ export default defineConfig({
       babelHelpers: 'bundled', // Ensure babel helpers are bundled
       exclude: 'node_modules/**' // Exclude node_modules
     })
-  ]
+  ],
+  server: {
+    port: 3000, // Set dev server port to 3000
+  },
+  preview: {
+    port: 3000, // Set preview port to 3000
+  }
 });

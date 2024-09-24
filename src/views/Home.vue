@@ -28,7 +28,7 @@ export default {
       showModal: false,
       modalTitle: 'Ticket Verification',
       responseMessage: '',
-      scannerKey: 0, // Add key for QrcodeStream
+      scannerKey: 0,
     };
   },
   components: {
@@ -37,12 +37,14 @@ export default {
   methods: {
     async onInit(promise) {
       try {
+        console.log('Camera initialized');
         const { capabilities } = await promise;
       } catch (error) {
         this.handleError(error);
       }
     },
     onDecode(decodedString) {
+      console.log('Decoded string:', decodedString);
       this.decodedString = decodedString;
       this.verifyTicket();
     },
@@ -53,16 +55,16 @@ export default {
 
         // Check HTTP status code
         if (response.status === 200) {
-          this.responseMessage = response.data.message; // Assuming API returns message field
+          this.responseMessage = response.data.message; // Adjust this based on your API response structure
         } else {
-          // Handle other HTTP status codes (e.g., 404, 500, etc.)
-          this.responseMessage = response.data.message;
+          // Handle unexpected HTTP status codes
+          this.responseMessage = response.data.message || 'Unexpected error occurred';
         }
       } catch (error) {
         console.error('Error verifying ticket:', error);
-        this.responseMessage = error.response.data.message || 'An error occurred while verifying ticket'; // Example error message
+        this.responseMessage = error.response?.data?.message || 'An error occurred while verifying the ticket'; // Handle error messages safely
       } finally {
-        this.showModal = true; // Ensure showModal is set to true in all cases
+        this.showModal = true; // Show modal regardless of success or error
       }
     },
     dismissModal() {
@@ -70,12 +72,9 @@ export default {
       this.startScanning();
     },
     startScanning() {
-      // Increment scannerKey to re-render QrcodeStream
-      this.scannerKey += 1;
-      // Reset any necessary state
-      this.decodedString = ''; // Reset decoded string if needed
-      // Optionally reset torch if needed
-      this.torch = false;
+      this.scannerKey += 1; // Increment to re-render QrcodeStream
+      this.decodedString = ''; // Reset decoded string
+      this.torch = false; // Optionally reset torch
     },
     resetState() {
       this.showModal = false;
@@ -94,13 +93,13 @@ export default {
           this.error = 'Page is not served over HTTPS (or localhost)';
           break;
         case 'NotReadableError':
-          this.error = 'Maybe camera is already in use';
+          this.error = 'Camera is already in use';
           break;
         case 'OverconstrainedError':
-          this.error = 'Did you request the front camera although there is none?';
+          this.error = 'Requested front camera not available';
           break;
         case 'StreamApiNotSupportedError':
-          this.error = 'Browser seems to be lacking features';
+          this.error = 'Browser lacks necessary features';
           break;
         default:
           this.error = 'Failed to initialize camera';
